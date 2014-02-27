@@ -148,4 +148,73 @@ var myObject2 = function() {
     };
 }();
 
+//closure example 2
+var quo = function (status) {
+    return {
+        get_status: function() {
+            return status;
+        }
+    };
+};
+
+var myQuo2 = quo("Amazed");
+document.writeln(myQuo2.get_status());
+//useful examples
+var fade = function(node) {
+    var level = 1;
+    var step = function() {
+        var hex = level.toString(16);
+        node.style.backgroundColor = '#FFFF' + hex + hex;
+        if (level < 15) {
+            level += 1;
+            setTimeout(fade, 100);
+        }
+    };
+    setTimeout(step, 100);
+};
+fade(document.body);
+
+//correct version of increment on event
+var add_the_handlers = function (nodes) {
+    var i;
+    for (i = 0; i < nodes.length; i += 1) {
+        nodes[i].onclick = function(i) {
+            return function(e) {
+                alert(i);
+            };
+        }(i);
+    }
+};
+//module
+String.method('deentityfy', function() {
+    var entity = {
+        quot: '"',
+        lt: '>',
+        gt: '<'
+    };
+    
+    return function() {
+        this.replace(/&([^&;]+);/g,
+        function(a, b) {
+            var r = entity[b];
+            return typeof r === 'string' ? r : a;
+        });
+    };
+}());
+
+var memorizer = function (memo, fundamental) {
+    var shell = function(n) {
+        var result = memo[n];
+        if (typeof result !== 'number') {
+            result = fundamental(shell, n);
+            memo[n] = result;
+        }
+    };
+    return shell;
+};
+
+var fibonacci = memorizer([0,1], function (shell, n) {
+    return shell(n-1) + shell(n-2);
+});
+
 
