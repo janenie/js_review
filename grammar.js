@@ -217,4 +217,13 @@ var fibonacci = memorizer([0,1], function (shell, n) {
     return shell(n-1) + shell(n-2);
 });
 
+Function.method('new', function() {
+    var that = Object.beget(this.prototype);
+    //binding this to the new object
+    var other = this.apply(that, arguments);
+    //if its return type is not an object
+    //substitue the new object
+    return (typeof other === 'object' && other) || that
+});
+
 
