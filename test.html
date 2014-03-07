@@ -17,6 +17,30 @@
                     };
                 }(i);
             }
+            
+            var test_ = function(spec, my) {
+                var that, name;
+                //shared attributes
+                my = my || {};
+                console.log(spec.name);
+                var get_name = function() {
+                    return spec.name;
+                };
+                my.get_name = get_name;
+                that = {
+                    name: 'John'
+                };
+                //priviledged methods
+                that.get_name = function() {
+                    return my.name + ' ' + that.name;
+                };
+                return that;
+            };
+
+            var test1 = test_({name: 'jane'});
+            test1.name = 'Jane';
+            console.log(test1.get_name());
+
         </script>
     </body>
 </html>
